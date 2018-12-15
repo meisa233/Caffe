@@ -122,6 +122,11 @@ In file included from /opt/cuda/include/host_config.h:50:0,
  ```
  cmake -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 ..
  ```
+即<br />
+```
+cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 WITH_FFMPEG=YES ..
+
+```
 在opencv下新建一个文件夹build<br />
 ```
 cd build  
