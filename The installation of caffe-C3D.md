@@ -83,7 +83,7 @@ sudo apt-get update
 sudo apt-get install ffmpeg
 ```
 然后安装支持ffmpeg的opencv<br />
-**20181215更新**<br />
+### 20181215更新<br />
 今天重新配置环境，因为想要直接装支持ffmpeg的opencv,于是打算按照上面三行命令来<br />
 然而**不行啊**<br />
 一开始
@@ -108,7 +108,20 @@ sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
 sudo make clean
 ```
 重新来<br />
-
+---------------------------
+### 新问题：
+```
+In file included from /opt/cuda/include/host_config.h:50:0,
+                 from /opt/cuda/include/cuda_runtime.h:78,
+                 from <command-line>:0:
+/opt/cuda/include/crt/host_config.h:121:2: error: #error -- unsupported GNU version! gcc versions later than 6 are not supported!
+ #error -- unsupported GNU version! gcc versions later than 6 are not supported!
+  ^~~~~
+ ```
+ 解决方法，编译时的命令改成：
+ ```
+ cmake -DCMAKE_C_COMPILER=gcc-6 -DCMAKE_CXX_COMPILER=g++-6 ..
+ ```
 在opencv下新建一个文件夹build<br />
 ```
 cd build  
