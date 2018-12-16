@@ -91,6 +91,10 @@ LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu 
 修改为：   
 OPENCV_VERSION := 3  
 ```
+注意，如果使用的是3以上（包含3）的版本而不修改的话，会报错，报错如下：<br />
+```
+.build_release/lib/libcaffe.so: undefined reference to 'cv::imread(cv::String const&, int)'
+```
 ### 3.修改caffe目录下的Makefile文件
 #### (1)修改NVCCFLAGS
 ```
