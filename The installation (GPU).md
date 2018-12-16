@@ -9,6 +9,11 @@ gpu版本<br />
 ---------------------
 ## 装opencv
 重新申请了一个，发现opencv没了（exm？？）
+
+**注意**：如果想以后处理视频的话，要装支持FFMPEG的opencv，具体见caffe-C3d的安装<br />
+<br />
+
+
 于是需要装一下opencv，安装方法来自https://blog.csdn.net/qq473179304/article/details/79444609<br />
 到官网：http://opencv.org/releases.html ，下载3.4.0的opencv，解压到随意一个位置<br />
 在opencv下新建一个文件夹build<br />
