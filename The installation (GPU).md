@@ -197,6 +197,12 @@ locate cuda | grep /cuda$
 CUDA_DIR := （这里填写正确的cuda位置，示例：/usr/lib/cuda或者/usr/local/cuda）
 ```
 **而后仍然还是找不到nvcc的，经过查找，把nvidia-cuda-toolkit的bin文件夹下的内容，复制到cuda文件夹下的bin文件夹中**
+#### (12) ./include/caffe/util/cudnn.hpp:5:19:fatal error: cudnn.h : No such file or directory #include <cudnn.h>
+好吧，这台机子的cudnn没装……于是，当然是要装啊<br />
+cudnn的下载地址：<br />
+https://developer.nvidia.com/rdp/cudnn-archive
+这里选的与cuda 9.1.85版本相符合的7.0.5版本的cudnn（后面出问题再说吧……<br />
+下载Linux版本的源码，把包里的include中的内容复制到cuda文件夹中的include文件夹中，lib64文件夹中的内容复制到cuda文件夹中的include文件夹中<br />
 ### 6.安装与测试
 安装，在caffe目录下执行
 ```
