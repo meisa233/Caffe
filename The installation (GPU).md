@@ -182,6 +182,21 @@ make
 sudo make install
 
 ```
+#### (11)make: /usr/local/cuda/bin/nvcc:Command not found
+解决方法：<br />
+如果没有安装nvidia-cuda-toolkit，需要安装nvidia-cuda-toolkit，命令如下：<br />
+```
+sudo apt-get install nvidia-cuda-toolkit
+```
+此外需要查找cuda的真正的位置，命令如下：
+```
+locate cuda | grep /cuda$
+```
+找到cuda的真正位置后，需要在**Makefile.config**文件中进行修改：<br />
+```
+CUDA_DIR := （这里填写正确的cuda位置，示例：/usr/lib/cuda或者/usr/local/cuda）
+```
+**而后仍然还是找不到nvcc的，经过查找，把nvidia-cuda-toolkit的bin文件夹下的内容，复制到cuda文件夹下的bin文件夹中**
 ### 6.安装与测试
 安装，在caffe目录下执行
 ```
