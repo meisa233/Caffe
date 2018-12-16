@@ -83,7 +83,11 @@ sudo apt-get update
 sudo apt-get install ffmpeg
 ```
 然后安装支持ffmpeg的opencv<br />
-### 20181215更新<br />
+>
+>
+>
+## 20181215更新<br />
+------------------------
 今天重新配置环境，因为想要直接装支持ffmpeg的opencv,于是打算按照上面三行命令来<br />
 然而**不行啊**<br />
 一开始
@@ -97,11 +101,20 @@ FFMPEG:No
 后来看了一些网页，安装了依赖<br />
 ```
 sudo apt-get install libgtk2.0-dev pkg-config
-sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libavresample-dev
 ```
 但是**FFMPEG仍然是No**
 于是我把**FFMPEG给卸了**
 然后就。。 就成功了 ！！！
+>
+>
+However……opencv因为某些原因**又无法编译成功了**……<br />
+so，我下了3.4.3的opencv……<br />
+使用以下命令<br />
+```
+cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local WITH_FFMPEG=YES ..
+```
+才成功的……
 <br />
 注意，如果失败了的话要
 ```
