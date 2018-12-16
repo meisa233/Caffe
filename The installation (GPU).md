@@ -35,6 +35,18 @@ sudo pip install opencv-python
 由于学校的平台已经自动安好cuda、opencv、cudnn了，所以不再叙述过程，具体见：
 https://blog.csdn.net/yhaolpz/article/details/71375762
 ### 1.克隆caffe
+首先安装依赖包
+```
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+
+sudo apt-get install --no-install-recommends libboost-all-dev
+
+sudo apt-get install libopenblas-dev liblapack-dev libatlas-base-dev
+
+sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+sudo apt-get install git cmake build-essential
+```
 ```
 git clone https://github.com/BVLC/caffe.git
 ```
