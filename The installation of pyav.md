@@ -1,5 +1,7 @@
 因为在读取TRECVid2007 SBD的数据集的时候出现了问题<br />
 于是尝试使用pyav这个包<br />
+pyav的介绍来自：https://docs.mikeboers.com/pyav/develop/installation.html#dependencies<br />
+
 >
 安装步骤来自：https://gist.github.com/willpatera/f5f205d2311d92142490cda798d6e2b8<br />
 >
@@ -77,4 +79,41 @@ make
 sudo checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | \
   awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes \
   --fstrans=no --default
+```
+#### 安装XVID
+```
+cd ~/
+wget 'http://mirror.ryansanden.com/ffmpeg-d00bc6a8/xvidcore-1.3.2.tar.gz'
+tar -xzf xvidcore-1.3.2.tar.gz
+cd xvidcore/build/generic
+./configure --prefix='/usr/local'
+make          # 15 sec
+sudo make install
+```
+又不知道什么原因，在后续安装FFmpeg的时候出现了错误，如下
+```
+ERROR: libxvid not found
+```
+解决方法来自：http://blog.sina.com.cn/s/blog_99cc8f0d0101sx9j.html
+```
+sudo apt-get install libxvidcore-dev
+```
+#### 安装FFmpeg
+```
+cd
+git clone --depth 1 https://github.com/FFmpeg/FFmpeg.git
+cd FFmpeg
+./configure --enable-shared --enable-gpl --enable-libmp3lame --enable-libopencore-amrnb \
+  --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis \
+  --enable-libx264 --enable-nonfree --enable-version3  --enable-libxvid
+make
+sudo make install
+```
+#### 完成
+```
+sudo ldconfig
+```
+#### 安装pyav
+```
+sudo pip install av
 ```
