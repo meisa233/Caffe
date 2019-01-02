@@ -334,6 +334,13 @@ bash ./pycharm.sh
 ```
 sudo apt-get install python-tk
 ```
+##### e.pycharm死机，报错“Gtk-Message: Failed to load module "canberra-gtk-module"”
+解决方法：
+```
+sudo apt-get install libcanberra-gtk-module
+```
+来源：https://askubuntu.com/questions/208431/failed-to-load-module-canberra-gtk-module<br />
+https://intellij-support.jetbrains.com/hc/en-us/community/posts/207532205-Exception-in-thread-main-java-lang-NoClassDefFoundError-Not-able-to-start-PyCharm
 ### 9.安装VSCode
 参考https://www.cnblogs.com/lzpong/p/6145511.html <br />
 因为pycharm有点翻车，于是改用VSCode
