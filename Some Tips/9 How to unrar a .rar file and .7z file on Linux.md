@@ -28,3 +28,19 @@ phpMyAdmin-3.3.8.1-all-languages.7z  是压缩文件，这里我用phpadmin做�
 -r 表示递归解压缩所有的子文件夹<br />
 
 -o 是指定解压到的目录，-o后是没有空格的，直接接目录。这一点需要注意。<br />
+
+### 在windows解压被分卷压缩的tar压缩包
+使用以下命令合并
+```
+copy /b 压缩包名字（可以使用通配符，如ClipShots-*)
+```
+然后解压即可
+### 在Ubuntu解压被分卷压缩的tar压缩包
+使用一下命令合并
+```
+cat ClipShots-* >> ClipShots.tar
+```
+然后解压
+```
+tar -xvf 压缩包名字 -C ./data(这里是输出目录）
+```
