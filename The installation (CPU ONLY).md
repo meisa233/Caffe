@@ -109,7 +109,9 @@ C:\caffe\caffe>git checkout windows
 >
 ### 3.执行build_win.cmd
 建议使用**管理员权限**打开cmd，然后到该目录下执行**build_win.cmd**<br />
-**注意：如果中间有任何执行失败的地方，请删除caffe\build目录下的全部内容，以及caffe\scripts\build目录下的全部内容**
+**注意：如果中间有任何执行失败的地方，请删除caffe\build目录下的全部内容，以及caffe\scripts\build目录下的全部内容**<br />
+**如果出现找不到blas或者atlas之类的东西，在CMAKE中把BLAS那一行改成open**。
+
 >
 ### 4.编译pycaffe
 用**VS2015打开caffe.sln**<br />
