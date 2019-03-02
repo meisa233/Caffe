@@ -7,6 +7,7 @@ Caffe的安装（Windows10+VS2015+Python27)
 ------------------------
 ### 1.下载Miniconda
 
+
 可以直接在官网下载，地址：https://conda.io/miniconda.html<br />
 或者在我的Github上[下载最新版（时至2018/7/12的Windows x64最新版（python27)）](https://github.com/meisa233/Caffe/tree/master/Files%20about%20the%20installation%20of%20caffe)<br />
 请注意，在**安装过程**中请选择**将Miniconda加入环境变量**
