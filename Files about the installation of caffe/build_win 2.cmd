@@ -5,7 +5,8 @@
 if DEFINED APPVEYOR (
     echo Setting Appveyor defaults
     if NOT DEFINED MSVC_VERSION set MSVC_VERSION=14
-    if NOT DEFINED WITH_NINJA set WITH_NINJA=1
+        :: 这里WITH_NINJA要设为0，不然容易报错（因为我们编译的时候并没有安装NINJA)
+    if NOT DEFINED WITH_NINJA set WITH_NINJA=0
     if NOT DEFINED CPU_ONLY set CPU_ONLY=1 
 	:: 由于我们安装的是CPU_ONLY版本，所以我们将这里设定为1
     if NOT DEFINED CUDA_ARCH_NAME set CUDA_ARCH_NAME=Auto
