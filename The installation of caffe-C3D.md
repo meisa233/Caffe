@@ -2,6 +2,55 @@
 参考：https://blog.csdn.net/kmyfoer/article/details/80060696
 ## 安装过程
 ### !请先看error2的解决方案（需要装ffmpeg并重装opencv3.4.0)
+# 20190314更新
+因为需要运行DeepSBD，所以需要装caffe c3d-v1.0版本<br />
+坑啊……一堆问题 装了整整一天<br />
+下面的1、2步骤都是必须的，除此之外还需要修改Makefile和Makefile.config文件<br />
+重点是！！需要装一下g++ 5，安装方式很简单，如下<br />
+```
+sudo apt-get install g++-5
+```
+然后根据[Makefile](https://github.com/meisa233/Caffe/blob/master/Files%20about%20the%20installation%20of%20caffe/Makefile)
+[Makefile.config](https://github.com/meisa233/Caffe/blob/master/Files%20about%20the%20installation%20of%20caffe/Makefile.config)
+修改，<br />
+具体记不太清了，简单说几个地方好了<br />
+关于Makefile.config文件
+```
+PYTHON_INCLUDE := /usr/include/python2.7 \
+		/usr/local/lib/python2.7/dist-packages/numpy/core/include
+```
+这个地方的位置要写对
+```
+PYTHON_LIB := /usr/lib
+```
+这个地方也要写对<br />
+```
+CUDA_DIR := /usr/lib/cuda
+```
+CUDA位置要写对<br />
+>
+关于Makefile文件<br />
+```
+ifeq ($(LINUX), 1)
+	CXX := /usr/bin/g++-5
+endif
+```
+个地方要改成g++-5<br />
+<br />
+除此之外，sudo make runtest -j8的过程可能会很漫长（尤其到了Deconvolution3DLayerTest这里）<br />
+再除此之外<br />
+根据
+https://code.zackzhang.net/post/rcnn-installation-memo.html
+中，Power层在测试的时候会失败<br />
+```
+对于文件 src/caffe/test/test_power_layer.cpp：
+
+82 行，修改
+// GradientChecker<Dtype> checker(1e-2, 1e-2, 1701, 0., 0.01);
+GradientChecker<Dtype> checker(1e-3, 1e-2, 1701, 0., 0.01);
+```
+>
+>
 ### 1.克隆源码
 ```
 git clone http://github.com/facebook/C3D.git
