@@ -42,6 +42,35 @@ endif
 根据
 https://code.zackzhang.net/post/rcnn-installation-memo.html
 中，Power层在测试的时候会失败<br />
+关于Math_function也可能出错，修改如下：
+```
+MathFunctionsTest 的问题通过更改源码可以解决，下面是要修改的地方。
+
+对于文件 include/caffe/util/math_functions.hpp：
+
+170 行，修改
+
+// inline char caffe_sign(Dtype val)
+inline int8_t caffe_sign(Dtype val)
+删除 189-193 行的内容，即删除
+
+#define INSTANTIATE_CAFFE_CPU_UNARY_FUNC(name) \
+  template <> \
+  void caffe_cpu_##name<float>(const int n, const float* x, float* y); \
+  template <> \
+  void caffe_cpu_##name<double>(const int n, const double* x, double* y)
+218 行，修改
+
+// DEFINE_CAFFE_CPU_UNARY_FUNC(sgnbit, y[i] = std::signbit(x[i]));
+DEFINE_CAFFE_CPU_UNARY_FUNC(sgnbit, y[i] = static_cast<bool>((std::signbit)(x[i])));
+对于文件 src/caffe/util/math_functions.cpp：
+
+删除 448-450 行的内容，即删除
+INSTANTIATE_CAFFE_CPU_UNARY_FUNC(sign);
+INSTANTIATE_CAFFE_CPU_UNARY_FUNC(sgnbit);
+INSTANTIATE_CAFFE_CPU_UNARY_FUNC(fabs);
+
+```
 ```
 对于文件 src/caffe/test/test_power_layer.cpp：
 
