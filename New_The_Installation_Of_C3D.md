@@ -32,15 +32,14 @@ pkg-config --modversion opencv
 ```
 (注意查看的一般是电脑默认的OpenCV版本，如果你并没有安装在默认目录下，这个命令是无效的）
 
-python2.7装opencv（我在windows上用了这个命令装opencv，后续读取视频帧的时候，帧的索引出现了问题，有网友说是因为这样安装opencv是没有ffmpeg提供支持的<br />
-因而出现了这个问题，但是目前不知道怎么解决这个问题）<br />
-(相关讨论如下：<br />
+python2.7装opencv（我在windows上用了这个命令装opencv，后续读取视频帧的时候，帧的索引出现了问题，<br />
+有网友说是因为这样安装opencv是没有ffmpeg提供支持的才出现了这个问题，但是目前不知道怎么解决这个问题）<br />
+相关讨论如下：<br />
 https://github.com/opencv/opencv/issues/5686<br />
 https://github.com/opencv/opencv/issues/9053<br />
 https://github.com/Zulko/moviepy/issues/835<br />
 https://github.com/opencv/opencv/pull/6899<br />
 https://github.com/opencv/opencv/issues/4890<br />
-）
 ```
 sudo pip install opencv-python
 ```
@@ -91,7 +90,14 @@ git clone http://github.com/facebook/C3D.git
 ```
 sudo apt-get install g++-5
 ```
-3. 修改Makefile.config
+3. 修改Makefile.config和Makefile
+查看具体的文件如下：<br />
+[Makefile](https://github.com/meisa233/Caffe/blob/master/Files%20about%20the%20installation%20of%20caffe/Makefile)<br />
+>
+[Makefile.config](https://github.com/meisa233/Caffe/blob/master/Files%20about%20the%20installation%20of%20caffe/Makefile.config)<br />
+以下只列举重要的部分，因为全部的可能实在是记不清了!<br />
+请自己查看文件，用diff -b -B 文件名1 文件名2做对比<br />
+>
 首先得到Makefile.config文件<br />
 切换到C3D-v1.0目录下
 ```
@@ -110,10 +116,83 @@ CUDA_DIR := /usr/lib/cuda
 ```
 注意上述的这些目录的位置，不同的电脑是不一样的!!!一定要注意<br />
 >
-关于Makefile文件
+如果使用的OpenCV的版本大于等于3，则需要取消相关注释
+```
+OPENCV_VERSION := 3（去掉前面#）
+```
+>
+去掉对compute_20的检查（注释掉）<br />
+![comment_compute_20](https://github.com/meisa233/Caffe/raw/master/Files%20about%20the%20installation%20of%20caffe/caffe-gpu.png)<br />
+
+**关于Makefile文件**
 ```
 ifeq ($(LINUX), 1)
 	CXX := /usr/bin/g++-5
 endif
 ```
 这个地方要改成g++-5<br />
+>
+修改python路径
+```
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib 
+修改为： 
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial
+```
+请根据具体安装位置修改，上述修改并不代表所有系统的python路径都会是如此!
+>
+4. 安装
+```
+sudo make all -j8
+```
+-j8是8个线程的意思，也就是多线程编译<br />
+5. 测试
+```
+sudo make runtest -j8
+```
+测试的过程可能会很漫长，尤其到了**Deconvolution3DLayerTest**这里<br />
+请不要觉得奇怪，这是正常的!<br />
+
+除此之外!!!Power层和Math_function也可能会出错，需要做一些修改<br />
+修改来源：https://code.zackzhang.net/post/rcnn-installation-memo.html<br />
+>
+6. 编译pycaffe（如果需要）
+```
+sudo make pycaffe -j8
+```
+```
+MathFunctionsTest 的问题通过更改源码可以解决，下面是要修改的地方。
+
+对于文件 include/caffe/util/math_functions.hpp：
+
+170 行，修改
+
+// inline char caffe_sign(Dtype val)
+inline int8_t caffe_sign(Dtype val)
+删除 189-193 行的内容，即删除
+
+#define INSTANTIATE_CAFFE_CPU_UNARY_FUNC(name) \
+  template <> \
+  void caffe_cpu_##name<float>(const int n, const float* x, float* y); \
+  template <> \
+  void caffe_cpu_##name<double>(const int n, const double* x, double* y)
+218 行，修改
+
+// DEFINE_CAFFE_CPU_UNARY_FUNC(sgnbit, y[i] = std::signbit(x[i]));
+DEFINE_CAFFE_CPU_UNARY_FUNC(sgnbit, y[i] = static_cast<bool>((std::signbit)(x[i])));
+对于文件 src/caffe/util/math_functions.cpp：
+
+删除 448-450 行的内容，即删除
+INSTANTIATE_CAFFE_CPU_UNARY_FUNC(sign);
+INSTANTIATE_CAFFE_CPU_UNARY_FUNC(sgnbit);
+INSTANTIATE_CAFFE_CPU_UNARY_FUNC(fabs);
+```
+>
+```
+对于文件 src/caffe/test/test_power_layer.cpp：
+
+82 行，修改
+// GradientChecker<Dtype> checker(1e-2, 1e-2, 1701, 0., 0.01);
+GradientChecker<Dtype> checker(1e-3, 1e-2, 1701, 0., 0.01);
+```
