@@ -114,6 +114,9 @@ PYTHON_LIB := /usr/lib
 ```
 CUDA_DIR := /usr/lib/cuda
 ```
+```
+USE_CUDNN := 1（需要取消注释）
+```
 注意上述的这些目录的位置，不同的电脑是不一样的!!!一定要注意<br />
 >
 如果使用的OpenCV的版本大于等于3，则需要取消相关注释
@@ -157,10 +160,6 @@ sudo make runtest -j8
 除此之外!!!Power层和Math_function也可能会出错，需要做一些修改<br />
 修改来源：https://code.zackzhang.net/post/rcnn-installation-memo.html<br />
 >
-6. 编译pycaffe（如果需要）
-```
-sudo make pycaffe -j8
-```
 ```
 MathFunctionsTest 的问题通过更改源码可以解决，下面是要修改的地方。
 
@@ -195,4 +194,95 @@ INSTANTIATE_CAFFE_CPU_UNARY_FUNC(fabs);
 82 行，修改
 // GradientChecker<Dtype> checker(1e-2, 1e-2, 1701, 0., 0.01);
 GradientChecker<Dtype> checker(1e-3, 1e-2, 1701, 0., 0.01);
+```
+6. 编译pycaffe（如果需要）
+```
+sudo make pycaffe -j8
+```
+# C3D-v1.1的安装
+1. 克隆源码（与C3D-v1.0的第一步相同）
+```
+git clone http://github.com/facebook/C3D.git
+```
+2.修改Makefile.config和Makefile
+```
+cp Makefile.config.example Makefile.config
+```
+**修改Makefie.config文件**
+(1)取消OPENCV_VERSION := 3的注释
+```
+# Uncomment if you're using OpenCV 3
+OPENCV_VERSION := 3
+```
+(2)确认CUDA_DIR的位置是否正确(不同系统是不一样的，请一定要到相关目录确认）
+```
+CUDA_DIR := /usr/lib/cuda
+```
+(3)注释CUDA_ARCH中arch=compute_20的命令行
+(4)确认PYTHON_INCLUDE的目录是否正确
+**修改Makefile文件**
+在大概195行左右，将
+```
+	LIBRARIES += opencv_core opencv_highgui opencv_imgproc opencv_video
+```
+改为
+```
+	LIBRARIES += opencv_core opencv_highgui opencv_imgproc opencv_videoio
+```
+3. 安装
+```
+(在C3D-v1.1的根目录下）
+mkdir build
+cd build
+cmake -DCUDNN_INCLUDE="/usr/lib/cuda/include" -DCUDNN_LIBRARY="/usr/lib/cuda/lib64/libcudnn.so" -DOpenCV_DIR="/media/user02/New Volume/OpenCV3.4.3/opencv-3.4.3/build" ..
+sudo make all -j8
+```
+但是这样会出现一个bug，bug提示如下：<br />
+```
+[  FAILED  ] 2 tests, listed below:
+[  FAILED  ] BatchReindexLayerTest/2.TestGradient, where TypeParam = Double
+[  FAILED  ] BatchReindexLayerTest/3.TestGradient, where TypeParam = Float
+```
+相关讨论如下<br />
+https://github.com/BVLC/caffe/issues/6164<br />
+其实这个是由解决方案的，如下<br />
+**修改Makefile**
+```
+...
+# Debugging
+ifeq ($(DEBUG), 1)
+        COMMON_FLAGS += -DDEBUG -g -O0
+        NVCCFLAGS += -G
+else
+        COMMON_FLAGS += -DNDEBUG -O2
+endif
+...
+改为
+
+...
+# Debugging
+ifeq ($(DEBUG), 1)
+        COMMON_FLAGS += -DDEBUG -g -O0
+        NVCCFLAGS += -G
+else
+        COMMON_FLAGS += -DNDEBUG -O2
+        NVCCFLAGS += -G
+endif
+...
+```
+但是，我试过了，这样做了，重新sudo make clean在按照本文档233行至239行重新编译，还是会报错，然后我进行了一些如下的操作<br />
+根据[commit](https://github.com/BVLC/caffe/commit/864520713a4c5ffae7382ced5d34e4cadc608473)来修改文件<br />
+除此之外，还是要按照上面的操作加上NVCCFLAGS += -G<br />
+然后在build文件夹下<br />
+```
+sudo make clean
+```
+然后删除build文件夹<br />
+在C3D-v.1.1的根目录下<br />
+```
+sudo make all -j8
+```
+4. 测试
+```
+sudo make runtest -j8
 ```
