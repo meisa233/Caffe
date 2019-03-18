@@ -286,3 +286,7 @@ sudo make all -j8
 ```
 sudo make runtest -j8
 ```
+5. 编译pycaffe（如果需要）
+```
+sudo make pycaffe -j8
+```
