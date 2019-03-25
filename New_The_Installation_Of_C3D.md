@@ -64,6 +64,7 @@ sudo apt-get install ffmpeg
 >
 在以往的尝试中，我无法安装OpenCV 3.4.0版本，但是我成功安装了OpenCV 3.4.3版本。<br />
 >
+**为了让python能够识别到我们编译好的opencv，我将OpenCV主目录/build/lib中的东西都复制到了/usr/local/lib/pyth2.7/site-packages/下，注意如果python已经安装了opencv需要使用pip uninstall opencv-python卸载掉**
 以下列举一些可能会出现的问题<br />
 1. 报错：error -- unsupported GNU version!
 具体如下
