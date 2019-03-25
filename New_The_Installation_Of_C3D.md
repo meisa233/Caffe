@@ -32,17 +32,18 @@ pkg-config --modversion opencv
 ```
 (注意查看的一般是电脑默认的OpenCV版本，如果你并没有安装在默认目录下，这个命令是无效的）
 
-python2.7装opencv（我在windows上用了这个命令装opencv，后续读取视频帧的时候，帧的索引出现了问题，<br />
+~~python2.7装opencv（我在windows上用了这个命令装opencv，后续读取视频帧的时候，帧的索引出现了问题，<br />
 有网友说是因为这样安装opencv是没有ffmpeg提供支持的才出现了这个问题，但是目前不知道怎么解决这个问题）<br />
 相关讨论如下：<br />
 https://github.com/opencv/opencv/issues/5686<br />
 https://github.com/opencv/opencv/issues/9053<br />
 https://github.com/Zulko/moviepy/issues/835<br />
 https://github.com/opencv/opencv/pull/6899<br />
-https://github.com/opencv/opencv/issues/4890<br />
-```
-sudo pip install opencv-python
-```
+https://github.com/opencv/opencv/issues/4890<br />~~
+
+~~sudo pip install opencv-python~~
+
+
 **在执行命令之前请务必注意:**<br />
 ```
  FFMPEG:Yes
@@ -64,7 +65,22 @@ sudo apt-get install ffmpeg
 >
 在以往的尝试中，我无法安装OpenCV 3.4.0版本，但是我成功安装了OpenCV 3.4.3版本。<br />
 >
+### 如何让python找到opencv
+
 **为了让python能够识别到我们编译好的opencv，我将OpenCV主目录/build/lib中的东西都复制到了/usr/local/lib/pyth2.7/site-packages/下，注意如果python已经安装了opencv需要使用pip uninstall opencv-python卸载掉**
+>
+除此之外，还有其它的操作<br />
+需要在/etc/ld.so.conf.d/下新建opencv.conf文件，并且将/usr/local/lib/python2.7/site-packages/写入到该文件中，然后执行
+```
+sudo ldconfig -v
+```
+在python中导入cv2包时，需要有如下操作<br />
+```python
+import sys
+sys.path.append('/usr/local/lib/python2.7/site-packages/')
+import cv2
+```
+>
 以下列举一些可能会出现的问题<br />
 1. 报错：error -- unsupported GNU version!
 具体如下
