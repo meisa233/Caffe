@@ -14,6 +14,7 @@ sudo apt-get install libgtk2.0-dev pkg-config
 sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libavresample-dev
 ```
 >
+查看cuda版本：https://blog.csdn.net/qq_16525279/article/details/80662217
 ```
 (切换到opencv根目录下）
 mkdir build
@@ -239,7 +240,7 @@ OPENCV_VERSION := 3
 ```
 CUDA_DIR := /usr/lib/cuda
 ```
-(3)注释CUDA_ARCH中arch=compute_20的命令行
+(3)注释CUDA_ARCH中arch=compute_20的命令行<br />
 (4)确认PYTHON_INCLUDE的目录是否正确
 **修改Makefile文件**
 在大概195行左右，将
