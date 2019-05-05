@@ -241,8 +241,19 @@ OPENCV_VERSION := 3
 CUDA_DIR := /usr/lib/cuda
 ```
 (3)注释CUDA_ARCH中arch=compute_20的命令行<br />
-(4)确认PYTHON_INCLUDE的目录是否正确
-**修改Makefile文件**
+(4)确认PYTHON_INCLUDE的目录是否正确<br />
+(5)修改以下两行<br />
+```
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib 
+修改为： 
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial
+```
+(6)USE_PKG_CONFIG := 1　（去掉注释#）<br />
+>
+
+**修改Makefile文件**<br />
 在大概195行左右，将
 ```
 	LIBRARIES += opencv_core opencv_highgui opencv_imgproc opencv_video
