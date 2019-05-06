@@ -8,6 +8,8 @@
 >
 官网地址：http://opencv.org/releases.html(需要到官网下载opencv的源码包)
 >
+cuda的安装方式见<br />
+https://blog.csdn.net/w55100/article/details/88929029<br />
 首先安装依赖<br />
 ```
 sudo apt-get install libgtk2.0-dev pkg-config
