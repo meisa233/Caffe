@@ -1,4 +1,4 @@
-在实验室的新服务器装caffe-C3D-v1.1多GPU版，整个就是一翻车现场……
+在实验室的新服务器装caffe-C3D-v1.1**多GPU版**，整个就是一翻车现场……
 >
 前提，这台电脑上啥都没装，只装了显卡驱动<br />
 >
@@ -39,6 +39,7 @@ sudo vim /etc/modprobe.d/blacklist.conf
 
 >
 安装步骤来自：https://blog.csdn.net/qq997843911/article/details/85039021<br />
+另外一个参考：https://blog.csdn.net/qq_32408773/article/details/84112166<br />
 >
 为了以后不出问题，选择采用**SSH连接的方式**进行安装，请务必确保网络状况良好<br />
 >
@@ -56,4 +57,33 @@ CUDA下载地址：https://developer.nvidia.com/cuda-toolkit-archive <br />
 然后进行<br />
 ```
 sudo sh cuda_10.0.130_410.48_linux.run
+```
+然后会出现很多需要选择的，全部选择Y，其他的的就是直接回车键默认。<br />
+但是，注意，由于显卡驱动已经安装好了，所以在询问是否需要更新（或者安装）到最新的显卡驱动的时候，就不要选择安装了。<br/>
+>
+接下来需要进行环境配置<br />
+>
+```
+sudo vi ~/.bashrc
+# 添加以下三条语句到结尾
+export CUDA_HOME=/usr/local/cuda-10.0
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64:$LD_LIBRARY_PATH # 这个是添加到结尾
+export PATH=/usr/local/cuda-10.0/bin:$PATH # 这个是添加到结尾
+
+# 以下是别人写的参数,仅供参考
+# export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}
+# export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64\${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}           
+# export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib\${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+source ~/.bashrc
+```
+>
+然后安装官方推荐的第三方库
+```
+sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
+```
+测试一下安装是否正确<br />
+命令如下：<br />
+```
+nvcc -V
 ```
