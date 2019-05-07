@@ -31,7 +31,29 @@ sudo apt-get install git cmake build-essential
 >
 (2)安装CUDA<br />
 >
-安装步骤来自：https://blog.csdn.net/w55100/article/details/88929029<br />
->
-为了以后不出问题，选择采用SSH连接的方式进行安装，请务必确保网络状况良好<br />
+禁用nouveau驱动<br />
+打开以下文件<br />
+```
+sudo vim /etc/modprobe.d/blacklist.conf
+```
 
+>
+安装步骤来自：https://blog.csdn.net/qq997843911/article/details/85039021<br />
+>
+为了以后不出问题，选择采用**SSH连接的方式**进行安装，请务必确保网络状况良好<br />
+>
+CUDA下载地址：https://developer.nvidia.com/cuda-toolkit-archive <br />
+>
+这里安装的版本是CUDA 10.0（据说RTX 2080 Ti只支持CUDA10.0以上，当然也有说法说CUDA 9.2也可以，但是会出问题）<br />
+>
+选择的是：CUDA Toolkit 10.0 (Sept 2018), Online Documentation<br />
+>
+我们选择*runfile(local)* 
+版本<br />
+>
+得到的文件名是sudo sh cuda_10.0.130_410.48_linux.run<br />
+>
+然后进行<br />
+```
+sudo sh cuda_10.0.130_410.48_linux.run
+```
