@@ -29,7 +29,7 @@ sudo apt-get install git cmake build-essential
 >
 (2)安装显卡驱动（因为已经装好了，这个步骤略过）<br />
 >
-(2)安装CUDA<br />
+(3)安装CUDA<br />
 >
 禁用nouveau驱动<br />
 打开以下文件<br />
@@ -82,8 +82,46 @@ source ~/.bashrc
 ```
 sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
 ```
+
+(4)安装cuDNN<br />
+下载地址：https://developer.nvidia.com/rdp/cudnn-archive <br />
+(需要登录) <br />
+这里安装的版本是7.4.1<br />
+>
+安装过程：
+```
+sudo cp cudnn.h /usr/local/cuda/include/ #复制头文件  
+```
+然后进入cudnn/lib64文件夹下<br />
+输入以下命令
+```
+sudo cp lib* /usr/local/cuda/lib64/ #复制动态链接库  
+cd /usr/local/cuda/lib64/   
+sudo rm -rf libcudnn.so libcudnn.so.7  #删除原有动态文件  
+sudo ln -s libcudnn.so.7.0.5 libcudnn.so.7  #生成软衔接  
+sudo ln -s libcudnn.so.7 libcudnn.so  #生成软链接  
+```
+随后需要将路径/usr/local/cuda/lib64 添加到动态库<br />
+```
+sudo vim /etc/ld.so.conf.d/cuda.conf  
+```
+在末尾添加
+```
+/usr/local/cuda/lib64  
+```
+接下来使用
+```
+sudo ldconfig
+```
+使命令生效<br />
+>
+>
 测试一下安装是否正确<br />
 命令如下：<br />
 ```
 nvcc -V
 ```
+如果能够正常显示cuda的版本就没问题了<br />
+(5)安装OpenCV
+(6)安装NCCL
+
