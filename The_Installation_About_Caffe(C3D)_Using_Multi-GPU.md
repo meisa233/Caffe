@@ -58,6 +58,27 @@ CUDA下载地址：https://developer.nvidia.com/cuda-toolkit-archive <br />
 ```
 sudo sh cuda_10.0.130_410.48_linux.run
 ```
+整体安装过程如下
+```
+Do you accept the previously read EULA?
+accept/decline/quit: accept
+
+Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 410.48?
+(y)es/(n)o/(q)nit: n
+
+Install the CUDA 10.0 Toolkit?
+(y)es/(n)o/(q)nit: y
+
+Enter Toolkit Location
+ [ default is /usr/local/cuda-10.0 ]:
+ 
+Do you want to install a symbolic link at /usr/local/cuda?
+(y)es/(n)o/(q)nit: y
+
+Install the CUDA 10.0 Samples?
+(y)es/(n)o/(q)uit: y
+
+```
 然后会出现很多需要选择的，全部选择Y，其他的的就是直接回车键默认。<br />
 但是，注意，由于显卡驱动已经安装好了，所以在询问是否需要更新（或者安装）到最新的显卡驱动的时候，就不要选择安装了。<br/>
 >
