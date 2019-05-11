@@ -109,7 +109,8 @@ sudo apt-get install g++ freeglut3-dev build-essential libx11-dev libxmu-dev lib
 (需要登录) <br />
 这里安装的版本是7.4.1<br />
 >
-安装过程：
+安装过程：<br />
+解压后，进入cuda/include文件夹下<br />
 ```
 sudo cp cudnn.h /usr/local/cuda/include/ #复制头文件  
 ```
