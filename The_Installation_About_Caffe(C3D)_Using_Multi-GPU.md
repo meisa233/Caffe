@@ -144,6 +144,52 @@ sudo ldconfig
 nvcc -V
 ```
 如果能够正常显示cuda的版本就没问题了<br />
-(5)安装OpenCV
-(6)安装NCCL
+(5)安装OpenCV<br />
+(6)安装NCCL<br />
+安装过程来源：https://www.itread01.com/content/1548039254.html
+```
+git clone https://github.com/NVIDIA/nccl.git
+cd nccl (看具体情况，也有可能是nccl-master）
+sudo make CUDA_HOME=/usr/local/cuda-10.0/ test
+sudo make install
+sudo ldconfig
+```
+除此之外，需要修改Caffe的C3D-v1.1目录下的**Makefile.config**<br />
+```
+# USE_NCCL := 1
+变为
+USE_NCCL := 1
+添加以下两条语句
+INCLUDE_DIRS += /nccl的目录/build/include
+LIBRARY_DIRS += /nccl的目录/build/lib
+```
 
+修改Caffe的C3D-v1.1的目录下的cmake目录下的Moduels下的FindNCCL.cmake文件<br />
+
+```
+set(NCCL_INC_PATHS
+    /usr/include
+/usr/local/include
+/nccl的目录/build/include <-----------这条是要添加的语句
+    $ENV{NCCL_DIR}/include
+)
+
+set(NCCL_LIB_PATHS
+    /lib
+    /lib64
+    /usr/lib
+    /usr/lib64
+    /usr/local/lib
+/usr/local/lib64
+/nccl的目录/build/lib <-----------这条是要添加的语句
+    $ENV{NCCL_DIR}/lib
+
+    )
+```
+
+修改Cmakelists.txt文档
+```
+caffe_option(USE_NCCL "Build Caffe with NCCL library support" OFF)
+OFF改成ON
+```
+(7)编译C3D-v1.1
