@@ -193,3 +193,6 @@ caffe_option(USE_NCCL "Build Caffe with NCCL library support" OFF)
 OFF改成ON
 ```
 (7)编译C3D-v1.1
+-----------------------------------
+补充：cmake安装https://blog.csdn.net/u014279330/article/details/83146586<br />
+(问题来源：https://blog.csdn.net/mhsszm/article/details/90238119）
