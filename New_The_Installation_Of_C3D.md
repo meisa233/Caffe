@@ -75,6 +75,9 @@ https://blog.csdn.net/kevineeo/article/details/83242516
 ### 如何让python找到opencv
 
 **为了让python能够识别到我们编译好的opencv，我将OpenCV主目录/build/lib中的东西都复制到了/usr/local/lib/pyth2.7/site-packages/下，注意如果python已经安装了opencv需要使用pip uninstall opencv-python卸载掉**
+
+需要用这个命令：cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_NEW_PYTHON_SUPPORT=ON -D BUILD_EXAMPLES=ON ..
+编译 才会出现cv2.so 然后把cv2.so的路径添加到系统路径里面<br />
 >
 除此之外，还有其它的操作<br />
 需要在/etc/ld.so.conf.d/下新建opencv.conf文件，并且将/usr/local/lib/python2.7/site-packages/写入到该文件中，然后执行
